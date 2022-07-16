@@ -9,20 +9,24 @@ import javax.transaction.Transactional;
 import org.acme.Entities.Intern;
 import org.acme.Entities.Subject;
 import org.acme.Repositories.InternRepository;
+import org.acme.Repositories.SubjectRepository;
 
-@ApplicationScoped 
-public class InternImpService implements InternIService{
+@ApplicationScoped
+public class InternImpService implements InternIService {
 
-    private final InternRepository internRepository;
-    
-    private final SubjectIService subjectIService;
+	private final InternRepository internRepository;
+	
+	private final SubjectRepository subjectRepository;
 
-    @Inject
-    public InternImpService(InternRepository internRepository,SubjectIService subjectIService) {
-    	this.internRepository = internRepository;
-    	this.subjectIService = subjectIService; 
-    }
-    
+	private final SubjectIService subjectIService;
+
+	@Inject
+	public InternImpService(InternRepository internRepository, SubjectIService subjectIService, SubjectRepository subjectRepository) {
+		this.internRepository = internRepository;
+		this.subjectIService = subjectIService;
+		this.subjectRepository = subjectRepository;
+	}
+
 	@Override
 	public List<Intern> retrieveInterns() {
 		return internRepository.listAll();
@@ -32,7 +36,7 @@ public class InternImpService implements InternIService{
 	@Override
 	public Intern addIntern(Intern i) {
 		internRepository.persistAndFlush(i);
-        return i;
+		return i;
 	}
 
 	@Transactional
@@ -46,9 +50,9 @@ public class InternImpService implements InternIService{
 		existingIntern.setEmail(i.getEmail());
 		existingIntern.setNum(i.getNum());
 		existingIntern.setSubject(i.getSubject());
-		
+
 		internRepository.persist(existingIntern);
-        return existingIntern;
+		return existingIntern;
 	}
 
 	@Transactional
@@ -67,10 +71,33 @@ public class InternImpService implements InternIService{
 	public Intern affectSubject(Long idi, Long ids) {
 		Intern i = getInternById(idi);
 		Subject s = subjectIService.getSubjectById(ids);
-		
+
 		i.setSubject(s);
-	    
+
 		internRepository.persist(i);
+		return i;
+	}
+
+	@Override
+	public Intern unaffectSubject(Long idi) {
+		Intern i = getInternById(idi);
+		Subject s = i.getSubject();
+		List<Intern> interns = s.getInterns();
+		
+		for(int x = 0; x < interns.size(); x++) {
+			Intern intern = interns.get(x);
+			if(intern.getIdIntern() == i.getIdIntern()) {
+				interns.remove(x);
+				
+				s.setInterns(interns);
+				i.setSubject(s);
+				
+				subjectRepository.persist(s);
+				internRepository.persist(i);
+				break;
+			}	
+		}
+		
 		return i;
 	}
 

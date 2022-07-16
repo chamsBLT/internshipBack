@@ -17,5 +17,6 @@ public interface InternIService {
 	void removeIntern (Long id);
 	
 	Intern affectSubject(Long idi, Long ids);
-
+	
+	Intern unaffectSubject(Long idi);
 }

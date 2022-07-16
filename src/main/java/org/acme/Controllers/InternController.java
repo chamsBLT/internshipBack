@@ -59,5 +59,11 @@ public class InternController {
     public Intern affectSubject(@PathParam("idi") Long idi, @PathParam("ids") Long ids) {
         return internIService.affectSubject(idi,ids);
     }
+    
+    @PUT
+    @Path("/unaffectSubject/{idi}")
+    public Intern unaffectSubject(@PathParam("idi") Long idi) {
+        return internIService.unaffectSubject(idi);
+    }
 
 }
