@@ -12,7 +12,6 @@ pipeline {
         		}
         		
             steps {
-                sh './mvnw package'
                 sh 'docker build -f src/main/docker/Dockerfile.jvm -t internship-app-back:1.0 .'
             }
         }
