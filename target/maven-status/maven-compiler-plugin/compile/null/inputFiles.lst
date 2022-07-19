@@ -1,0 +1,12 @@
+/home/chams/internship/internship-app-back/src/main/java/org/acme/Services/SubjectIService.java
+/home/chams/internship/internship-app-back/src/main/java/org/acme/Repositories/InternRepository.java
+/home/chams/internship/internship-app-back/src/main/java/org/acme/Entities/Intern.java
+/home/chams/internship/internship-app-back/src/main/java/org/acme/GreetingResource.java
+/home/chams/internship/internship-app-back/src/main/java/org/acme/Entities/Subject.java
+/home/chams/internship/internship-app-back/src/main/java/org/acme/Entities/Field.java
+/home/chams/internship/internship-app-back/src/main/java/org/acme/Controllers/InternController.java
+/home/chams/internship/internship-app-back/src/main/java/org/acme/Repositories/SubjectRepository.java
+/home/chams/internship/internship-app-back/src/main/java/org/acme/Controllers/SubjectController.java
+/home/chams/internship/internship-app-back/src/main/java/org/acme/Services/InternImpService.java
+/home/chams/internship/internship-app-back/src/main/java/org/acme/Services/InternIService.java
+/home/chams/internship/internship-app-back/src/main/java/org/acme/Services/SubjectImpService.java
