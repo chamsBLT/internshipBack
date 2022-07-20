@@ -10,7 +10,7 @@ pipeline {
 		stage('Build') {
 
 			steps {
-				sh 'docker build -f src/main/docker/Dockerfile.jvm -t chxws/internship-app-back:1.0 .'
+				sh 'docker build -f src/main/docker/Dockerfile.jvm -t chxws/internship-app-back:latest .'
 			}
 		}
 
@@ -24,7 +24,7 @@ pipeline {
 		stage('Push') {
 
 			steps {
-				sh 'docker push chxws/internship-app-back:1.0'
+				sh 'docker push chxws/internship-app-back:latest'
 			}
 		}
 	}
