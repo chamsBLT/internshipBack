@@ -2,32 +2,46 @@ pipeline {
     agent {label 'slave1'}
     
     environment {
+        imagename = "chxws/internship-app-back"
         dockerhub=credentials('docker-credentials')
     }
 
     stages {
         
-        stage("Buid project") {
+        stage("Build project") {
             
             steps {
                 sh './mvnw package'
             }
         }
         
-        stage("Buid image") {
-        		
-            steps {
-                sh 'docker build -f src/main/docker/Dockerfile.jvm -t internship-app-back:1.0 .'
-            }
-        }
+        stage('Building image') {
+     
+            steps{
         
-        stage("Pushing image") {
-            steps {
-                 sh 'docker tag internship-app-back:1.0 chxws/internship-app-back:1.0'
-                 
-                 sh 'docker push chxws/internship-app-back:1.0'      
-            }
+                script {
+          
+                    dockerImage = docker.build imagename
         }
+      }
+    }
+    
+        stage('Deploy Image') {
+      
+            steps{
+        
+                script {
+          
+                    docker.withRegistry( '', dockerhub ) {
+            
+                        dockerImage.push("$BUILD_NUMBER")
+             
+                        dockerImage.push('latest')
+
+          }
+        }
+      }
+    }
 
         stage("Deploying") {
             steps {
