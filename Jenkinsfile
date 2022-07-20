@@ -1,38 +1,14 @@
-pipeline {
-    agent {label 'slave1'}
+node ('slave1') {
+    def app
 
-    environment {
-		DOCKERHUB_CREDENTIALS=credentials('docker-credentials')
-	}
+    stage('Build image') {
+        app = docker.build("chxws/internshipback")
+    }
 
-	stages {
-
-		stage('Build') {
-
-			steps {
-				sh 'docker build -f src/main/docker/Dockerfile.jvm -t chxws/internship-app-back:latest .'
-			}
-		}
-
-		stage('Login') {
-
-			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-			}
-		}
-
-		stage('Push') {
-
-			steps {
-				sh 'docker push chxws/internship-app-back:latest'
-			}
-		}
-	}
-    
-	post {
-		always {
-			sh 'docker logout'
-		}
-	}
-
+    stage('Push image') {
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-credentials') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
+        }
+    }
 }
