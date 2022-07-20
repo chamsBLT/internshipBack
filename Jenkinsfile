@@ -21,7 +21,7 @@ pipeline {
         
                 script {
           
-                    dockerImage = docker.build imagename
+                    dockerImage = docker.build -f src/main/docker/Dockerfile.jvm -t imagename .
         }
       }
     }
