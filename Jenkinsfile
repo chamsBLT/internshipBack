@@ -1,6 +1,10 @@
 node ('slave1') {
     def app
-
+    
+    stage('Clone repository') {
+        checkout scm
+    }
+    
     stage('Build image') {
         app = docker.build("chxws/internshipback")
     }
