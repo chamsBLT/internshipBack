@@ -25,7 +25,7 @@ pipeline {
             steps {
                  sh 'docker tag internship-app-back:1.0 chxws/internship-app-back:1.0'
                  
-                 sh 'push chxws/internship-app-back:1.0'      
+                 sh 'docker push chxws/internship-app-back:1.0'      
             }
         }
 
