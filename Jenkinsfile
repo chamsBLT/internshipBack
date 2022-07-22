@@ -18,7 +18,7 @@ node ('slave1') {
       
     stage('Delpoying the App on Azure Kubernetes Service') {            
         app = docker.image('chxws/internshipback:latest')            
-        withDockerRegistry('', 'docker-credentials') {            
+        docker.withRegistry('', 'docker-credentials') {            
             app.pull()            
             
             sh "kubectl apply -f mysql-secrets.yaml"
