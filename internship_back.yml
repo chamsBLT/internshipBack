@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: consomitn-back
+  name: internship-back
 spec:
   selector:
     matchLabels:
-      app: consomitn-back
+      app: internship-back
   replicas: 1
   template:
     metadata:
       labels:
-        app: consomitn-back
+        app: internship-back
     spec:
       containers:
-        - name: consomitn-back
-          image: chxws/consomitn_back:latest
+        - name: internship-back
+          image: chxws/internshipback:latest
           ports:
-            - containerPort: 8089
+            - containerPort: 8082
 ---
 
 apiVersion: v1 # Kubernetes API version
 kind: Service # Kubernetes resource kind we are creating
 metadata: # Metadata of the resource kind we are creating
-  name: consomitn-back-svc
+  name: internship-back-svc
 spec:
   selector:
-    app: consomitn-back
+    app: internship-back
   ports:
     - protocol: "TCP"
-      port: 8089 # The port that the service is running on in the cluster
-      targetPort: 8089 # The port exposed by the service
+      port: 8082 # The port that the service is running on in the cluster
+      targetPort: 8082 # The port exposed by the service
   type: LoadBalancer # type of the service.
