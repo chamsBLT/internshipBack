@@ -5,6 +5,10 @@ node ('slave1') {
         checkout scm
     }
     
+    stage('Build project') {
+        sh "./mvnw package"
+    }
+    
     stage('Build image') {
         app = docker.build("chxws/internshipback")
     }
@@ -13,8 +17,7 @@ node ('slave1') {
         docker.withRegistry('', 'docker-credentials') {
             app.push("latest")
         }
-    }
-    
+    }  
       
     stage('Delpoying the App on Azure Kubernetes Service') {            
         app = docker.image('chxws/internshipback:latest')            
@@ -24,9 +27,7 @@ node ('slave1') {
             sh "kubectl apply -f mysql-secrets.yaml"
             sh "kubectl apply -f mysql-configMap.yaml"
             sh "kubectl apply -f db.yml"
-            sh "kubectl apply -f internship_back.yml"
-            
-            
+            sh "kubectl apply -f internship_back.yml"            
         }       
     }  
 }
