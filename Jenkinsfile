@@ -6,7 +6,6 @@ node ('slave1') {
     }
     
     stage('Build project') {
-        sh "rm -rf /home/workspace/internship-app-pipeline_main/target/"
         sh "./mvnw package"
     }
     
